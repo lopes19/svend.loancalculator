@@ -38,12 +38,40 @@ public static class SimulateEndpoint
             "type": 1
           },
           "monthlyFees": {
-            "mipPercentage": 0.025,
+            "mipPercentage": 0.027,
             "dfiFee": 0,
             "administrationFee": 15
           }
         }
         ```
+
+        ## Campos do request
+
+        | Campo | Tipo | Obrigatório | Descrição |
+        |-------|------|:-----------:|-----------|
+        | `table` | int | Sim | Tipo da tabela de amortização (ver tabela acima) |
+        | `loanAmount` | decimal | Sim | Valor total do financiamento em reais. Deve ser maior que zero |
+        | `loanTermInMonths` | int | Sim | Prazo do financiamento em meses. Deve ser entre 1 e 420 |
+        | `interestRate` | decimal | Sim | Taxa de juros anual (ex: 12.6 = 12,6% a.a.) |
+        | `inflationRate` | decimal | Não | Taxa de correção monetária anual (ex: 4.5 = 4,5% a.a.) |
+
+        ### intermediatePayments (opcional)
+
+        | Campo | Tipo | Obrigatório | Descrição |
+        |-------|------|:-----------:|-----------|
+        | `amount` | decimal | Não | Valor das parcelas intermediárias em reais |
+        | `term` | int | Não | Prazo em meses das parcelas intermediárias |
+        | `type` | int | Não | Tipo de pagamento intermediário (ver tabela acima) |
+
+        ### monthlyFees (opcional)
+
+        | Campo | Tipo | Obrigatório | Descrição |
+        |-------|------|:-----------:|-----------|
+        | `mipPercentage` | decimal | Sim* | Percentual do MIP sobre o saldo devedor (ex: 0.027 = 0,0027%) |
+        | `dfiFee` | decimal | Sim* | Valor fixo mensal do DFI em reais |
+        | `administrationFee` | decimal | Sim* | Taxa de administração mensal em reais |
+
+        > *Obrigatório quando `monthlyFees` é informado.
         """;
 
     public static void MapSimulateEndpoint(this IEndpointRouteBuilder app)
